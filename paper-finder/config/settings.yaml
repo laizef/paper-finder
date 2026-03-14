@@ -1,0 +1,149 @@
+# Paper Finder Configuration
+# Academic Literature Search and Download Configuration
+
+# ==================== Search Configuration ====================
+search:
+  # Default search sources (options: openalex, arxiv)
+  default_sources:
+    - openalex
+    - arxiv
+
+  # OpenAlex Configuration
+  openalex:
+    # API key (optional, read from environment variable OPENALEX_API_KEY)
+    api_key: null
+    # Email (optional, for polite pool access)
+    email: null
+    # Default max results
+    max_results: 1000
+    # Default sort order
+    sort_by: "cited_by_count:desc"
+    # Request delay (seconds)
+    request_delay: 0.1
+
+  # arXiv Configuration
+  arxiv:
+    # Default max results
+    max_results: 100
+    # Default categories (empty means all)
+    default_categories: []
+    # Default sort order
+    sort_by: "submittedDate"
+    sort_order: "descending"
+    # Request delay (seconds)
+    request_delay: 0.5
+
+  # Semantic Scholar Configuration
+  semantic_scholar:
+    # API key (optional, read from environment variable SEMANTIC_SCHOLAR_API_KEY)
+    api_key: null
+    max_results: 100
+    request_delay: 0.3
+
+  # Search Filters
+  filters:
+    # Year range (null means no limit)
+    year_min: null
+    year_max: null
+    # Minimum citations
+    min_citations: 0
+    # Open access only
+    open_access_only: false
+    # Document types (article, book, dataset, etc.)
+    document_types:
+      - article
+    # Languages (en, zh, etc.)
+    languages: []
+
+# ==================== Download Configuration ====================
+download:
+  # Download directory
+  output_dir: "./output/papers"
+
+  # Download source priority (in order)
+  sources_priority:
+    - direct_url      # Direct URL (if known)
+    - unpaywall       # Unpaywall API
+    - semantic_scholar # Semantic Scholar
+    - arxiv           # arXiv
+    - pmc             # PubMed Central
+    - scihub          # Sci-Hub (last resort)
+
+  # Unpaywall Configuration
+  unpaywall:
+    # Email for Unpaywall API (optional but recommended)
+    # Set to your email for better API access, or leave null to skip Unpaywall
+    email: null
+
+  # Sci-Hub Configuration
+  scihub:
+    # Sci-Hub domain list
+    domains:
+      - "https://sci-hub.se/"
+      - "https://sci-hub.st/"
+      - "https://sci-hub.ru/"
+    # Enable Sci-Hub
+    enabled: true
+
+  # Download Settings
+  settings:
+    # Concurrent downloads
+    max_workers: 5
+    # Timeout (seconds)
+    timeout: 60
+    # Retry count
+    max_retries: 3
+    # Skip existing files
+    skip_existing: true
+    # Save failed files (for manual inspection)
+    save_failed: true
+    # Strict PDF check (recommended to disable for higher success rate)
+    strict_pdf_check: false
+
+# ==================== Output Configuration ====================
+output:
+  # Search Results Output
+  search_results:
+    # Output directory
+    dir: "./output/search_results"
+    # Output formats (xlsx, json, csv)
+    formats:
+      - xlsx
+      - json
+    # Filename template (supports timestamp)
+    filename_template: "search_results_{timestamp}"
+
+  # Download Log
+  download_log:
+    # Log directory
+    dir: "./logs"
+    # Log level (DEBUG, INFO, WARNING, ERROR)
+    level: "INFO"
+    # Save to file
+    save_to_file: true
+
+# ==================== Advanced Settings ====================
+advanced:
+  # Proxy Settings
+  proxy:
+    enabled: false
+    http: null
+    https: null
+
+  # Cache Settings
+  cache:
+    # Enable cache
+    enabled: true
+    # Cache directory
+    dir: "./cache"
+    # Cache expiration (hours)
+    expire_hours: 24
+
+  # Deduplication Settings
+  deduplication:
+    # Enable deduplication
+    enabled: true
+    # Deduplication keys (doi, title)
+    keys:
+      - doi
+      - title
